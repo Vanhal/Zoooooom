@@ -1,0 +1,30 @@
+## gradle
+/.gradle
+/build
+/gradle
+/gradlew
+/gradlew.bat
+
+## ForgeGradle
+/run
+
+## eclipse
+/eclipseOLD
+/eclipse
+/.settings
+/.metadata
+/.classpath
+/.project
+/bin
+
+## intellij
+/out
+/.idea
+/*.iml
+/*.ipr
+/*.iws
+/atlassian-ide-plugin.xml
+
+*Thumbs.db
+/Contraptions1.8_Client.launch
+/Contraptions1.8_Server.launch

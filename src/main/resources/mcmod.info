@@ -1,0 +1,16 @@
+[
+{
+  "modid": "zoooooom",
+  "name": "Zoooooom",
+  "description": "Mod that provides item, fluid and rf transport",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/Vanhal/Zoooooom/",
+  "updateUrl": "https://github.com/Vanhal/Zoooooom/releases",
+  "authorList": ["Vanhal"],
+  "credits": "Vanhal",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
