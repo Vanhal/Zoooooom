@@ -4,16 +4,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import tv.vanhal.zoooooom.Zoooooom;
+import tv.vanhal.zoooooom.enums.EnumConnection;
 import tv.vanhal.zoooooom.enums.EnumType;
 
 public class TilePipeExtract extends TilePipeState implements ITickable {
 
 	public TilePipeExtract() {
-		super();
+		this(EnumType.None);
 	}
 	
 	public TilePipeExtract(EnumType type) {
 		super(type);
+		filthy = true;
 	}
 	
 	@Override
