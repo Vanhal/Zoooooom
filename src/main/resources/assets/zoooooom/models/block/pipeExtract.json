@@ -1,0 +1,31 @@
+{
+"textures": {
+    "particle": "#texture"
+},
+"elements": [ 
+{
+    "from": [ 9, 5.99, 5.99 ],
+    "to": [ 15, 10.01, 10.01 ],
+    "faces": {
+        "down":  { "uv": [ 3.5, 13, 1.5, 9 ], "texture": "#texture" },
+        "up":    { "uv": [ 1.5, 9, 3.5, 13 ], "texture": "#texture" },
+        "north": { "uv": [ 1.5, 9, 3.5, 13 ], "texture": "#texture" },
+        "south": { "uv": [ 1.5, 9, 3, 13 ], "texture": "#texture" },
+        "west":  { "uv": [ 6, 9, 10, 13 ], "texture": "#texture" },
+        "east":  { "uv": [ 6, 9, 10, 13 ], "texture": "#texture" }
+    }
+},
+{
+    "from": [ 14, 5, 5 ],
+    "to": [ 16, 11, 11 ],
+    "faces": {
+        "down":  { "uv": [ 11, 14, 9, 8 ], "texture": "#texture" },
+        "up":    { "uv": [ 9, 8, 11, 14 ], "texture": "#texture" },
+        "north": { "uv": [ 9, 8, 11, 14 ], "texture": "#texture" },
+        "south": { "uv": [ 9, 8, 11, 14 ], "texture": "#texture" },
+        "west":  { "uv": [ 5, 8, 11, 14 ], "texture": "#texture" },
+        "east":  { "uv": [ 7, 10, 9, 12 ], "texture": "#texture" }
+    }
+}
+]
+}
