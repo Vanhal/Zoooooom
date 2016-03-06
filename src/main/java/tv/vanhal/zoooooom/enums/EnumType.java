@@ -5,8 +5,4 @@ public enum EnumType {
 	Power,
 	Item,
 	Fluid;
-	
-	public static EnumType get(int i) {
-		return values()[i];
-	}
 }

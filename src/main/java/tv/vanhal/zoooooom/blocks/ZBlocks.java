@@ -1,28 +1,33 @@
 package tv.vanhal.zoooooom.blocks;
 
-import tv.vanhal.zoooooom.BasePipe;
+import java.util.ArrayList;
+
+import tv.vanhal.zoooooom.enums.EnumPipe;
 import tv.vanhal.zoooooom.enums.EnumType;
 
 public class ZBlocks {
-	public static BasePipe rfPipe = new BasePipe("rfPipe", EnumType.Power);
-	public static BasePipe itemPipe = new BasePipe("itemPipe", EnumType.Item);
-	public static BasePipe fluidPipe = new BasePipe("fluidPipe", EnumType.Fluid);
+	public static ArrayList<BasePipe> pipes = new ArrayList<BasePipe>();
 	
 	public static void preInit() {
-		rfPipe.preInit();
-		fluidPipe.preInit();
-		itemPipe.preInit();
+		for (EnumPipe type : EnumPipe.values()) {
+			if (type.getType() != EnumType.None)
+				pipes.add(new BasePipe(type.name+"Pipe", type));
+		}
+		
+		for (BasePipe pipe : pipes) {
+			pipe.preInit();
+		}
 	}
 	
 	public static void init() {
-		rfPipe.init();
-		fluidPipe.init();
-		itemPipe.init();
+		for (BasePipe pipe : pipes) {
+			pipe.init();
+		}
 	}
 
 	public static void postInit() {
-		rfPipe.postInit();
-		fluidPipe.postInit();
-		itemPipe.postInit();
+		for (BasePipe pipe : pipes) {
+			pipe.postInit();
+		}
 	}
 }

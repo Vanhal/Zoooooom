@@ -1,1 +1,22 @@
 itemGroup.ZoooooomTab=Zoooooom!
+
+tile.woodenRFPipe.name=Wooden RF Pipe
+tile.woodenItemPipe.name=Wooden Item Pipe
+tile.woodenFluidPipe.name=Wooden Fluid Pipe
+
+tile.stoneRFPipe.name=Stone RF Pipe
+tile.stoneItemPipe.name=Stone Item Pipe
+tile.stoneFluidPipe.name=Stone Fluid Pipe
+
+tile.ironRFPipe.name=Iron RF Pipe
+tile.ironItemPipe.name=Iron Item Pipe
+tile.ironFluidPipe.name=Iron Fluid Pipe
+
+tile.goldRFPipe.name=Gold RF Pipe
+tile.goldItemPipe.name=Gold Item Pipe
+tile.goldFluidPipe.name=Gold Fluid Pipe
+
+info.usage.max=Max transfer rate
+info.usage.power=RF/t
+info.usage.item=items per tick
+info.usage.fluid=mb per tick

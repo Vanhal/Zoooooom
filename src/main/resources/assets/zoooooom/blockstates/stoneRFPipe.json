@@ -1,0 +1,139 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "texture": "zoooooom:blocks/stoneRF"
+        },
+        "model": "zoooooom:pipe"
+		
+    },
+    "variants": {
+        "normal": [{
+		}],
+        "inventory": [{
+			"transform": {
+				"thirdperson": {
+					"rotation": [{"x": 10}, {"y": -45}, {"z": 170}],
+					"translation": [ 0, 0, -0.1 ],
+					"scale": [ 0.375, 0.375, 0.375 ]
+				},
+				"gui": {
+					"scale": [ 2, 2, 2 ]
+				}
+            }
+		}],
+		"up": {
+			"extract": {
+				"submodel": {
+					"up": {
+						"model": "zoooooom:pipeExtract",
+						"transform": {"rotation": [{"z": 90}]}
+					}
+				}
+			},
+			"connected": {
+				"submodel": {
+					"up": {
+						"model": "zoooooom:pipeConnect",
+						"transform": {"rotation": [{"z": 90}]}
+					}
+				}
+			},
+			"none": {}
+		},
+		"down": {
+			"extract": {
+				"submodel": {
+					"down": {
+						"model": "zoooooom:pipeExtract",
+						"transform": {"rotation": [{"z": -90}]}
+					}
+				}
+			},
+			"connected": {
+				"submodel": {
+					"down": {
+						"model": "zoooooom:pipeConnect",
+						"transform": {"rotation": [{"z": -90}]}
+					}
+				}
+			},
+			"none": {}
+		},
+		"north": {
+			"extract": {
+				"submodel": {
+					"north": {
+						"model": "zoooooom:pipeExtract",
+						"transform": {"rotation": [{"y": 90}]}
+					}
+				}
+			},
+			"connected": {
+				"submodel": {
+					"north": {
+						"model": "zoooooom:pipeConnect",
+						"transform": {"rotation": [{"y": 90}]}
+					}
+				}
+			},
+			"none": {}
+		},
+		"south": {
+			"extract": {
+				"submodel": {
+					"south": {
+						"model": "zoooooom:pipeExtract",
+						"transform": {"rotation": [{"y": -90}]}
+					}
+				}
+			},
+			"connected": {
+				"submodel": {
+					"south": {
+						"model": "zoooooom:pipeConnect",
+						"transform": {"rotation": [{"y": -90}]}
+					}
+				}
+			},
+			"none": {}
+		},
+		"east": {
+			"extract": {
+				"submodel": {
+					"east": {
+						"model": "zoooooom:pipeExtract"
+					}
+				}
+			},
+			"connected": {
+				"submodel": {
+					"east": {
+						"model": "zoooooom:pipeConnect"
+					}
+				}
+			},
+			"none": {}
+		},
+		"west": {
+			"extract": {
+				"submodel": {
+					"west": {
+						"model": "zoooooom:pipeExtract",
+						"transform": {"rotation": [{"y": 180}]}
+					}
+				}
+			},
+			"connected": {
+				"submodel": {
+					"west": {
+						"model": "zoooooom:pipeConnect",
+						"transform": {"rotation": [{"y": 180}]}
+					}
+				}
+			},
+			"none": {}
+		}
+		
+    }
+}

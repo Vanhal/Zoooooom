@@ -37,7 +37,7 @@ public class Zoooooom {
 	public static CreativeTabs ZTab = new CreativeTabs("ZoooooomTab") {
 		@Override
 		public Item getTabIconItem() {
-			return Items.redstone;
+			return Item.getItemFromBlock(ZBlocks.pipes.get(0));
 		}
 	};
 

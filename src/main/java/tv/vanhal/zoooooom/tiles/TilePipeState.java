@@ -4,7 +4,7 @@ import org.apache.logging.log4j.message.Message;
 
 import tv.vanhal.zoooooom.Zoooooom;
 import tv.vanhal.zoooooom.enums.EnumConnection;
-import tv.vanhal.zoooooom.enums.EnumType;
+import tv.vanhal.zoooooom.enums.EnumPipe;
 import tv.vanhal.zoooooom.util.PipeState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -14,15 +14,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
 public class TilePipeState extends TileEntity {
-	protected EnumType pipeType = EnumType.None;
+	protected EnumPipe pipeType = EnumPipe.None;
 	protected PipeState state;
 	protected boolean filthy = true;
 
 	public TilePipeState() {
-		this(EnumType.None);
+		this(EnumPipe.None);
 	}
 	
-	public TilePipeState(EnumType type) {
+	public TilePipeState(EnumPipe type) {
 		pipeType = type;
 		state = new PipeState(pipeType);
 	}
@@ -37,7 +37,7 @@ public class TilePipeState extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		if (nbt.hasKey("type")) pipeType = EnumType.get(nbt.getInteger("type"));
+		if (nbt.hasKey("type")) pipeType = EnumPipe.get(nbt.getInteger("type"));
 		if (nbt.hasKey("state")) state.setNBT(nbt.getCompoundTag("state"));
 	}
 	
@@ -83,11 +83,12 @@ public class TilePipeState extends TileEntity {
 	
 	protected void updateTile() {
 		if (this instanceof TilePipeExtract) {
-			if (!state.canExtract()) {
+			/*if (!state.canExtract()) {
 				TilePipeState newState = new TilePipeState(pipeType);
 				newState.setState(state);
 				worldObj.setTileEntity(pos, newState);
-			}
+				worldObj.markBlockForUpdate(pos);
+			}*/
 		} else if (state.canExtract()) {
 			TilePipeExtract newState = new TilePipeExtract(pipeType);
 			newState.setState(state);
@@ -100,7 +101,7 @@ public class TilePipeState extends TileEntity {
 	}
 	
 	public void setState(PipeState _state) {
-		this.state = _state;
+		state.setNBT(_state.getNBT());
 	}
 	
 	public void updateState() {
@@ -124,7 +125,7 @@ public class TilePipeState extends TileEntity {
 		}
 	}
 	
-	public EnumType getType() {
+	public EnumPipe getType() {
 		return pipeType;
 	}
 	

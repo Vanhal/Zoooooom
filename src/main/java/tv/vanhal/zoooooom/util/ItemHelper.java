@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemHelper {
 	public static void dropAsItem(World worldObj, BlockPos pos, Block block, int meta) {
@@ -83,6 +84,24 @@ public class ItemHelper {
 	public static int getBurnTime(ItemStack itemStack) {
 		return TileEntityFurnace.getItemBurnTime(itemStack);
 	}
+	
+
+    public static boolean areOreDictEntriesSame(ItemStack itemStack1, ItemStack itemStack2) {
+        int[] a = OreDictionary.getOreIDs(itemStack1);
+        if (a.length != 0)
+        {
+            int[] b = OreDictionary.getOreIDs(itemStack2);
+            for (int bb : b)
+            {
+                for (int aa : a)
+                {
+                    if (aa == bb)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
 	
 	public static boolean clickAddToTile(World world, BlockPos pos, EntityPlayer player, int slot) {
 		if (player.isSneaking()) {

@@ -12,12 +12,13 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.IFluidHandler;
-import tv.vanhal.zoooooom.BasePipe;
+import tv.vanhal.zoooooom.blocks.BasePipe;
 import tv.vanhal.zoooooom.enums.EnumConnection;
+import tv.vanhal.zoooooom.enums.EnumPipe;
 import tv.vanhal.zoooooom.enums.EnumType;
 
 public class PipeState {
-	protected EnumType pipeType = EnumType.None;
+	protected EnumPipe pipeType = EnumPipe.None;
 	
 	protected EnumConnection up = EnumConnection.none;
 	protected EnumConnection down = EnumConnection.none;
@@ -31,7 +32,7 @@ public class PipeState {
 	public PipeState() {
 	}
 	
-	public PipeState(EnumType _type) {
+	public PipeState(EnumPipe _type) {
 		pipeType = _type;
 	}
 	
@@ -68,9 +69,9 @@ public class PipeState {
 	public boolean canConnectBlock(IBlockAccess world, BlockPos pos) {
 		Block testBlock = world.getBlockState(pos).getBlock();
 		TileEntity tile = world.getTileEntity(pos);
-		if ( (pipeType == EnumType.Power) && (tile instanceof IEnergyHandler) ) return true;
-		if ( (pipeType == EnumType.Item) && (tile instanceof IInventory) ) return true;
-		if ( (pipeType == EnumType.Fluid) && (tile instanceof IFluidHandler) ) return true;
+		if ( (pipeType.getType() == EnumType.Power) && (tile instanceof IEnergyHandler) ) return true;
+		if ( (pipeType.getType() == EnumType.Item) && (tile instanceof IInventory) ) return true;
+		if ( (pipeType.getType() == EnumType.Fluid) && (tile instanceof IFluidHandler) ) return true;
 		return false;
 
 	}
@@ -79,6 +80,25 @@ public class PipeState {
 		List<EnumFacing> faces = new ArrayList<EnumFacing>();
 		for (EnumFacing face: EnumFacing.values()) {
 			if (isConnected(face)) faces.add(face);
+		}
+		EnumFacing[] rtn = new EnumFacing[faces.size()];
+		return faces.toArray(rtn);
+	}
+	
+	public EnumFacing[] getBlockConnections(IBlockAccess world, Point3I pos) {
+		List<EnumFacing> faces = new ArrayList<EnumFacing>();
+		for (EnumFacing face: EnumFacing.values()) {
+			if ( (canConnectBlock(world, pos.offset(face).getPos())) 
+					&& (getState(face) == EnumConnection.connected) ) faces.add(face);
+		}
+		EnumFacing[] rtn = new EnumFacing[faces.size()];
+		return faces.toArray(rtn);
+	}
+	
+	public EnumFacing[] getExtractConnections() {
+		List<EnumFacing> faces = new ArrayList<EnumFacing>();
+		for (EnumFacing face: EnumFacing.values()) {
+			if (getState(face) == EnumConnection.extract) faces.add(face);
 		}
 		EnumFacing[] rtn = new EnumFacing[faces.size()];
 		return faces.toArray(rtn);
@@ -139,7 +159,7 @@ public class PipeState {
 		south = EnumConnection.get(nbt.getInteger("south"));
 		east = EnumConnection.get(nbt.getInteger("east"));
 		west = EnumConnection.get(nbt.getInteger("west"));
-		pipeType = EnumType.get(nbt.getInteger("type"));
+		pipeType = EnumPipe.get(nbt.getInteger("type"));
 		if (nbt.hasKey("forced")) forcedSides = nbt.getIntArray("forced");
 	}
 }

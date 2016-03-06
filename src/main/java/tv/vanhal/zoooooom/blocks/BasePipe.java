@@ -1,15 +1,19 @@
-package tv.vanhal.zoooooom;
+package tv.vanhal.zoooooom.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cofh.api.energy.IEnergyHandler;
 import akka.util.Collections;
+import tv.vanhal.zoooooom.Zoooooom;
 import tv.vanhal.zoooooom.blockstates.PropertyConnection;
 import tv.vanhal.zoooooom.enums.EnumConnection;
+import tv.vanhal.zoooooom.enums.EnumPipe;
 import tv.vanhal.zoooooom.enums.EnumType;
+import tv.vanhal.zoooooom.items.ItemPipe;
 import tv.vanhal.zoooooom.tiles.TilePipeExtract;
 import tv.vanhal.zoooooom.tiles.TilePipeState;
+import tv.vanhal.zoooooom.util.Colours;
 import tv.vanhal.zoooooom.util.PipeState;
 import tv.vanhal.zoooooom.util.Ref;
 import net.minecraft.block.Block;
@@ -24,8 +28,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -36,14 +43,15 @@ import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class BasePipe extends BlockContainer  {
 	public static final ArrayList<PropertyConnection> connections = new ArrayList<PropertyConnection>();
 	
 	public String name;
-	public EnumType type;
+	public EnumPipe type;
 
-	public BasePipe(String _name, EnumType _type) {
+	public BasePipe(String _name, EnumPipe _type) {
 		super(Material.iron);
 		this.name = _name;
 		this.type = _type;
@@ -52,7 +60,6 @@ public class BasePipe extends BlockContainer  {
 
 		setHardness(1.0f);
 		setCreativeTab(Zoooooom.ZTab);
-		
         //setBlockBounds(0.35f, 0.35f, 0.35f, 0.65f, 0.65f, 0.65f);
 	}
 	
@@ -151,7 +158,7 @@ public class BasePipe extends BlockContainer  {
     
     //init stuff
 	public void preInit() {
-		GameRegistry.registerBlock(this, name);
+		GameRegistry.registerBlock(this, ItemPipe.class, name);
 	}
 	
 	public void init() {
@@ -159,7 +166,12 @@ public class BasePipe extends BlockContainer  {
 	}
 	
 	protected void addRecipe() {
-		
+		Item core = Item.getItemFromBlock(Blocks.redstone_block);
+		if (type.type == EnumType.Fluid) core = Items.bucket;
+		if (type.type == EnumType.Item) core = Item.getItemFromBlock(Blocks.chest);
+		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(this, 8), new Object[]{
+			"igi", "gcg", "igi", 'g', Blocks.glass, 'i', type.craftItem, 'c', core});
+		GameRegistry.addRecipe(recipe);
 	}
 
 	public void postInit() {
@@ -208,7 +220,6 @@ public class BasePipe extends BlockContainer  {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TilePipeState) {
 				TilePipeState pipeState = (TilePipeState)tile;
-				if (!world.isRemote) Zoooooom.logger.info("Type: "+tile.getClass().toString());
 				return pipeState.changeConnection(side, hitX, hitY, hitZ);
 			}
 		}
