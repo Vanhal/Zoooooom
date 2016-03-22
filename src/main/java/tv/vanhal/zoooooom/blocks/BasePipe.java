@@ -184,25 +184,32 @@ public class BasePipe extends BlockContainer  {
 	//block update stuff
 	@Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-		TileEntity tile = worldIn.getTileEntity(pos);
-		if (tile instanceof TilePipeState) {
-			((TilePipeState)tile).updateState();
+		if (!worldIn.isRemote) {
+			TileEntity tile = worldIn.getTileEntity(pos);
+			if (tile instanceof TilePipeState) {
+				((TilePipeState)tile).updateState();
+			}
+			worldIn.markBlockForUpdate(pos);
 		}
     }
 	
 	@Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		TileEntity tile = worldIn.getTileEntity(pos);
-		if (tile instanceof TilePipeState) {
-			((TilePipeState)tile).updateState();
+		if (!worldIn.isRemote) {
+			TileEntity tile = worldIn.getTileEntity(pos);
+			if (tile instanceof TilePipeState) {
+				((TilePipeState)tile).updateState();
+			}
+			worldIn.markBlockForUpdate(pos);
 		}
     }
 	
 	protected IBlockState updateConnections(IBlockAccess worldIn, BlockPos pos, IBlockState state) {
-		for (EnumFacing face: EnumFacing.values()) {
-			TileEntity tile = worldIn.getTileEntity(pos);
-			if (tile instanceof TilePipeState) {
-				state = state.withProperty(connections.get(face.ordinal()), ((TilePipeState)tile).getState().getState(face));
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TilePipeState) {
+			TilePipeState pipeTile = (TilePipeState) tile;
+			for (EnumFacing face: EnumFacing.values()) {
+				state = state.withProperty(connections.get(face.ordinal()), pipeTile.getState().getState(face));
 			}
 		}
 		return state;

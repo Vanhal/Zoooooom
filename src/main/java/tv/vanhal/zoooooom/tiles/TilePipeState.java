@@ -25,6 +25,7 @@ public class TilePipeState extends TileEntity {
 	public TilePipeState(EnumPipe type) {
 		pipeType = type;
 		state = new PipeState(pipeType);
+		markDirty();
 	}
 	
 	@Override
@@ -32,6 +33,7 @@ public class TilePipeState extends TileEntity {
 		super.writeToNBT(nbt);
 		nbt.setInteger("type", pipeType.ordinal());
 		nbt.setTag("state", state.getNBT());
+		if (!worldObj.isRemote) worldObj.markBlockForUpdate(pos);
 	}
 	
 	@Override
@@ -49,34 +51,43 @@ public class TilePipeState extends TileEntity {
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		state.setNBT(pkt.getNbtCompound());
+		markDirty();
 		worldObj.markBlockRangeForRenderUpdate(pos, pos);
 	}
 	
 	public void sendUpdateStateMessage() {
-		worldObj.markBlockForUpdate(pos);
-		markDirty();
-		markFilthy();
+		if (!worldObj.isRemote) {
+			worldObj.markBlockForUpdate(pos);
+			markDirty();
+			markFilthy();
+		}
 	}
 	
 	public void cleanFilth() {
-		if (!filthy) return;
-		filthy = false;
-		markConnectedFilthy(false);
+		if (!worldObj.isRemote) {
+			if (!filthy) return;
+			filthy = false;
+			markConnectedFilthy(false);
+		}
 	}
 	
 	public void markFilthy() {
-		if (filthy) return;
-		filthy = true;
-		markConnectedFilthy(true);
+		if (!worldObj.isRemote) {
+			if (filthy) return;
+			filthy = true;
+			markConnectedFilthy(true);
+		}
 	}
 	
 	protected void markConnectedFilthy(boolean filth) {
-		for (EnumFacing face: state.getConnections()) {
-			if (worldObj.getTileEntity(pos.offset(face)) instanceof TilePipeState) {
-				if (filth)
-					((TilePipeState)worldObj.getTileEntity(pos.offset(face))).markFilthy();
-				else
-					((TilePipeState)worldObj.getTileEntity(pos.offset(face))).cleanFilth();
+		if (!worldObj.isRemote) {
+			for (EnumFacing face: state.getConnections()) {
+				if (worldObj.getTileEntity(pos.offset(face)) instanceof TilePipeState) {
+					if (filth)
+						((TilePipeState)worldObj.getTileEntity(pos.offset(face))).markFilthy();
+					else
+						((TilePipeState)worldObj.getTileEntity(pos.offset(face))).cleanFilth();
+				}
 			}
 		}
 	}
@@ -107,9 +118,8 @@ public class TilePipeState extends TileEntity {
 	public void updateState() {
 		if (state!=null) {
 			if (state.update(worldObj, pos)) {
-				sendUpdateStateMessage();
 				updateTile();
-				
+				sendUpdateStateMessage();
 			}
 		}
 	}
